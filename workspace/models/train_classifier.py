@@ -115,12 +115,26 @@ def tokenize(text):
     # Replace the String based on the pattern
     text = text.replace("(", '')
 
-
     # Replace the String based on the pattern
     text = text.replace(")", '')
 
     # Replace the String based on the pattern
     text = text.replace("*", '')
+
+    # Replace the String based on the pattern
+    text = text.replace("~", '')
+
+    # Replace the String based on the pattern
+    text = text.replace("<", '')
+
+    # Replace the String based on the pattern
+    text = text.replace(">", '')
+
+    # Replace the String based on the pattern
+    text = text.replace("@", '')
+
+    # Replace the String based on the pattern
+    text = text.replace('`', '')
 
     tokens = word_tokenize(text)
     lemmatizer = WordNetLemmatizer()
@@ -145,7 +159,7 @@ def build_model():
     ])
 
     parameters = {
-        'clf__estimator__n_estimators': [10, 50, 100]
+        'clf__estimator__n_estimators': [50]
         #                          'clf__estimator__max_features': max_features
         #                          'clf__estimator__max_depth': max_depth,
         #                          'clf__estimator__min_samples_split': min_samples_split,
