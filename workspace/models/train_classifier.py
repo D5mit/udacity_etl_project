@@ -16,7 +16,13 @@ import pandas as pd
 
 
 def load_data(database_filepath):
-    # load data from database
+    """
+    Load data from database
+
+    Parameters:
+    database_filepath (string): the path of the database file
+    """
+
     # df = pd.read_sql_table('MessageClass', 'sqlite:///DisasterResponse2.db')
     df = pd.read_sql_table('MessageClass', database_filepath)
 
@@ -31,6 +37,17 @@ def load_data(database_filepath):
 
 
 def replace_text_regex(text, iregex, iplaceholder):
+    """
+    replace texts based on regular expresion
+
+    Parameters:
+    text (string): Text that will be used to replace
+    iregex (string): The regular expresion
+    iplaceholder (string): If the regular expresion is found, the text is replaced with the placeholder texts
+
+    Returns:
+    the modified text
+    """
 
     # remove URLs and replace with "urlplaceholder"
     url_regex = iregex
@@ -46,6 +63,20 @@ def replace_text_regex(text, iregex, iplaceholder):
 
 
 def tokenize(text):
+    """
+    Takes text and clean it
+    - Remove urls and replace with "urlplaceholder"
+    - Remove twitter tages and replace with "twitterplaceholder"
+    - Replace the String based on the pattern -> replace number with string
+    - Lemmatize text
+    - Return clean_tokens
+
+    Parameters:
+    clean_tokens (list): text as a list
+
+    Returns:
+    the modified text
+    """
 
     # remove URLs and replace with "urlplaceholder"
     url_regex = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
@@ -126,6 +157,20 @@ def build_model():
     return cv
 
 def evaluate_model(model, X_test, y_test, category_names, idetails=False):
+    """
+    Takes the predicted value and compare it to the test value. (y_pred vs y_test)
+    - for each column use the classification_report function to calculate the 'macro avg': f1 score, recall and precision
+    - Get the average of all the  f1 score, recall and precisions
+
+    Parameters:
+    model: the model taht will be evaluated
+    x_test (numpy.ndarray): x values (test input)
+    y_test (numpy.ndarray): y test values (test labeled data)
+    idetails=False (boolean): output details
+
+    Returns:
+    prints the: f1 score, recall and precision
+    """
 
     print(' - Predict...')
     y_pred = model.predict(X_test)
@@ -174,16 +219,20 @@ def evaluate_model(model, X_test, y_test, category_names, idetails=False):
 
 
 def save_model(model, model_filepath):
+    """
+    Save the model to a pkl file
+    Parameters
+    ----------
+    model : str, mandatory
+        model to save
+
+    model_filepath : str, mandatory
+        path to where the model must be saved  """
+
     # Save to file in the current working directory
     pkl_filename = model_filepath
     with open(pkl_filename, 'wb') as file:
         pickle.dump(model, file)
-    # # some time later...
-    #
-    # # load the model from disk
-    # loaded_model = pickle.load(open(filename, 'rb'))
-    # result = loaded_model.score(X_test, Y_test)
-    # print(result)
 
 def main():
     if len(sys.argv) == 3:
