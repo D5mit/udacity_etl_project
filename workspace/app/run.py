@@ -16,7 +16,7 @@ from plotly.graph_objs import Bar
 from sqlalchemy import create_engine
 import joblib
 
-from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
+from wordcloud import WordCloud
 
 
 app = Flask(__name__)
