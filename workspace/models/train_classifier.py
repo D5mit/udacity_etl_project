@@ -159,11 +159,11 @@ def build_model():
     ])
 
     parameters = {
-        'clf__estimator__n_estimators': [50]
+        'clf__estimator__n_estimators': [50],
         #                          'clf__estimator__max_features': max_features
         #                          'clf__estimator__max_depth': max_depth,
-        #                          'clf__estimator__min_samples_split': min_samples_split,
-        #                          'clf__estimator__min_samples_leaf': min_samples_leaf,
+        'clf__estimator__min_samples_split': [3],
+        'clf__estimator__min_samples_leaf': [3],
         #                          'clf__estimator__bootstrap': bootstrap
     }
 
@@ -278,8 +278,6 @@ def main():
               'as the first argument and the filepath of the pickle file to '\
               'save the model to as the second argument. \n\nExample: python '\
               'train_classifier.py sqlite:////Users/d5mit/PycharmProjects/udacity_ETL_project/Project/workspace/data/DisasterResponse.db classifier.pkl')
-
-
 
 
 
