@@ -1,5 +1,11 @@
 # Disaster Response Pipeline Project
 
+This project includes a web app where an emergency worker can input 
+a new message and get classification results in several categories.
+The web app displays visualizations of the data. In order to build 
+the app a basic data pipelines and machine learning pipeline was
+ developed.
+
 The disaster response pipeline project is has 3 mai1n parts: 
 1. The Jupyter Notebooks that were used in order to explore the data. They can be found under the folder "Notebooks"
 It was also used to create initial versions of the python code for the pipeline.
@@ -22,6 +28,33 @@ They can be found under: workspace/data for the loading code and under "workspac
 - wordcloud
 - flask
 - joblib
+
+# Overview of project:
+### Notebooks:
+- ETL Pipeline Preparation.ipynb # notebook to explore and create ETL
+- ML Pipeline Preparation.ipynb # notebook to create ML pipeline
+- ML Pipeline Preparation-visualization.ipynb # notebook to visualize data
+### Workspace:
+#### app
+- run.py # Flask file that runs app
+##### /static
+- Plotly-world_Cloud.png # created wordcloud
+##### /templates
+ - master.html # main page of web app
+ - go.html # classification result page of web app
+
+#### data
+- disaster_categories.csv # data to process
+- disaster_messages.csv # data to process
+- process_data.py # process the files to create a db
+- Disasterresponse.db # database to save clean data to
+- test_process_data.py # use pytest to unit test the data load program
+
+#### models
+- train_classifier.py # train the model
+- classifier.pkl # saved model
+
+README.md
 
 # Instructions:
 1. Run the following commands in the project's root directory to set up your database and model.

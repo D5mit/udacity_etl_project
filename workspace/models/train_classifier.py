@@ -93,10 +93,6 @@ def tokenize(text):
     # Replace the String based on the pattern -> replace number with string
     text = re.sub('[-+]?[0-9]+', 'inumber', text).upper()
 
-    aaa = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
-    # Replace the String based on the pattern
-    re.sub(aaa, 'itext', text)
-
     # Replace the String based on the pattern
     text = text.replace('+', '')
 
@@ -152,6 +148,10 @@ def tokenize(text):
 
 
 def build_model():
+    """
+    creates a pipeline to create a classifier
+    """
+
     pipeline = Pipeline([
         ('vect', CountVectorizer(tokenizer=tokenize)),
         ('tfidf', TfidfTransformer()),
@@ -249,6 +249,14 @@ def save_model(model, model_filepath):
         pickle.dump(model, file)
 
 def main():
+    """
+    Main function of the program that will do the following
+        Load data...
+        Build model
+        Train model
+        Evaluate model
+        Save model...
+    """
     if len(sys.argv) == 3:
         database_filepath, model_filepath = sys.argv[1:]
 
@@ -266,7 +274,7 @@ def main():
         model.fit(X_train, Y_train)
         
         print('Evaluating model...')
-        evaluate_model(model, X_test, Y_test, category_names)
+        evaluate_model(model, X_test, Y_test, category_names, True)
 
         print('Saving model...\n    MODEL: {}'.format(model_filepath))
         save_model(model, model_filepath)

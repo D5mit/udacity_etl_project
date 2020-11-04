@@ -27,6 +27,10 @@ app = Flask(__name__)
 #             template_folder='/Project/workspace/app/templates')
 
 def tokenize(text):
+    """
+    :param text: text that will be tokenized
+    :return: clean_tokens
+    """
     tokens = word_tokenize(text)
     lemmatizer = WordNetLemmatizer()
 
