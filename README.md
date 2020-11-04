@@ -29,10 +29,25 @@ They can be found under: workspace/data for the loading code and under "workspac
     - To run ETL pipeline that cleans data and stores in database
         `python data/process_data.py data/disaster_messages.csv data/disaster_categories.csv data/DisasterResponse.db`
         python process_data.py disaster_messages.csv disaster_categories.csv DisasterResponse.db
+        note: pytest was used in order to automate the testing for the process data script.
     - To run ML pipeline that trains classifier and saves
         `python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl`
+    - The model that was used in order to train the pipeline on:
+        - CountVectorizer(tokenizer=tokenize))
+        - TfidfTransformer())
+        - MultiOutputClassifier(RandomForestClassifier())
+        
+        With the following parameters:
+        - clf__estimator__n_estimators = 50
+        - clf__estimator__min_samples_split = 3
+        - clf__estimator__min_samples_leaf = 3
+
 
 2. Run the following command in the app's directory to run your web app.
     `python run.py`
+    
+3. A working version of the application can be found on:
+    - www.d5mit.co.za  (go to the Disaster Response link on the main page).
+    - The website is hosted on AWS EC2.
 
 
