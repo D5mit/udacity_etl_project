@@ -77,6 +77,9 @@ def clean_data(df):
     # concatenate the original dataframe with the new `categories` dataframe
     df = pd.concat([df, categories_dataframe], axis=1, sort=False)
 
+    # drop all the entries where the related column is 2
+    df = df[df['related'] != 2]
+
     # drop duplicates
     df = df.drop_duplicates()
 

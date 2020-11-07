@@ -9,6 +9,7 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from sklearn.metrics import classification_report
 from sklearn.model_selection import GridSearchCV
+from sqlalchemy import create_engine
 
 import re
 import pickle
@@ -24,7 +25,8 @@ def load_data(database_filepath):
     """
 
     # df = pd.read_sql_table('MessageClass', 'sqlite:///DisasterResponse2.db')
-    df = pd.read_sql_table('MessageClass', database_filepath)
+    engine = create_engine('sqlite:///' + database_filepath)
+    df = pd.read_sql_table('MessageClass', engine)
 
     # get text (X) and labels of data (y)
     X = df.iloc[:, 1:2].values[:, 0]

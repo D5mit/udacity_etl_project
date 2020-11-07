@@ -17,32 +17,126 @@ from sqlalchemy import create_engine
 import joblib
 
 from wordcloud import WordCloud
-
+import re
+from nltk.corpus import stopwords
 
 app = Flask(__name__)
 
-# app = Flask(__name__,
-#             # static_url_path='',
-#             static_folder='../static',
-#             template_folder='/Project/workspace/app/templates')
+
+def replace_text_regex(text, iregex, iplaceholder):
+    """
+    replace texts based on regular expresion
+
+    Parameters:
+    text (string): Text that will be used to replace
+    iregex (string): The regular expresion
+    iplaceholder (string): If the regular expresion is found, the text is replaced with the placeholder texts
+
+    Returns:
+    the modified text
+    """
+
+    # remove URLs and replace with "urlplaceholder"
+    url_regex = iregex
+
+    # get list of all urls using regex
+    detected_urls = re.findall(url_regex, text)
+
+    # replace each url in text string with placeholder
+    for url in detected_urls:
+        text = text.replace(url, iplaceholder)
+
+    return text
+
 
 def tokenize(text):
     """
-    :param text: text that will be tokenized
-    :return: clean_tokens
+    Takes text and clean it
+    - Remove urls and replace with "urlplaceholder"
+    - Remove twitter tages and replace with "twitterplaceholder"
+    - Replace the String based on the pattern -> replace number with string
+    - Lemmatize text
+    - Return clean_tokens
+
+    Parameters:
+    clean_tokens (list): text as a list
+
+    Returns:
+    the modified text
     """
+
+    # remove URLs and replace with "urlplaceholder"
+    url_regex = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
+    text = replace_text_regex(text, url_regex, 'urlplaceholder')
+
+    # remove www.URLs and replace with "urlplaceholder"
+    url_regex = 'www.?(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
+    text = replace_text_regex(text, url_regex, 'urlplaceholder')
+
+    # remove twitter tages and replace with "twitterplaceholder"
+    url_regex = '//t.co?/(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
+    text = replace_text_regex(text, url_regex, 'twitterplaceholder')
+
+    # Replace the String based on the pattern -> replace number with string
+    text = re.sub('[-+]?[0-9]+', 'inumber', text).upper()
+
+    # Replace the String based on the pattern
+    text = text.replace('+', '')
+
+    # Replace the String based on the pattern
+    text = text.replace('.', '')
+
+    # Replace the String based on the pattern
+    text = text.replace("'", '')
+
+    # Replace the String based on the pattern
+    text = text.replace("!", '')
+
+    # Replace the String based on the pattern
+    text = text.replace("#", '')
+
+    # Replace the String based on the pattern
+    text = text.replace("(", '')
+
+    # Replace the String based on the pattern
+    text = text.replace(")", '')
+
+    # Replace the String based on the pattern
+    text = text.replace("*", '')
+
+    # Replace the String based on the pattern
+    text = text.replace("~", '')
+
+    # Replace the String based on the pattern
+    text = text.replace("<", '')
+
+    # Replace the String based on the pattern
+    text = text.replace(">", '')
+
+    # Replace the String based on the pattern
+    text = text.replace("@", '')
+
+    # Replace the String based on the pattern
+    text = text.replace('`', '')
+
     tokens = word_tokenize(text)
     lemmatizer = WordNetLemmatizer()
+    stop_words = stopwords.words('english')
+
 
     clean_tokens = []
+    tokens = [lemmatizer.lemmatize(word) for word in tokens if word not in stop_words]
+
     for tok in tokens:
         clean_tok = lemmatizer.lemmatize(tok).lower().strip()
         clean_tokens.append(clean_tok)
 
     return clean_tokens
 
+
 # load data
-db_path = 'sqlite:////Users/d5mit/PycharmProjects/udacity_etl_project/workspace/data/DisasterResponse.db'
+# db_path = 'sqlite:////Users/d5mit/PycharmProjects/udacity_etl_project/workspace/data/DisasterResponse.db'
+db_path = 'sqlite:///../data/DisasterResponse.db'
 engine = create_engine(db_path)
 
 
