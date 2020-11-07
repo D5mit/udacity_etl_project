@@ -24,9 +24,11 @@ def load_data(database_filepath):
     database_filepath (string): the path of the database file
     """
 
-    # df = pd.read_sql_table('MessageClass', 'sqlite:///DisasterResponse2.db')
     engine = create_engine('sqlite:///' + database_filepath)
+    print(engine)
     df = pd.read_sql_table('MessageClass', engine)
+    # df = pd.read_sql_table('MessageClass', database_filepath)
+
 
     # get text (X) and labels of data (y)
     X = df.iloc[:, 1:2].values[:, 0]
@@ -217,6 +219,8 @@ def evaluate_model(model, X_test, y_test, category_names, idetails=False):
         if idetails == True:
             print('')
             print(column)
+            print('Precision:', macro_precision)
+            print('Recall:', macro_recall)
             print('F1 Score:', macro_f1)
 
         total_f1 = total_f1 + macro_f1
@@ -224,6 +228,7 @@ def evaluate_model(model, X_test, y_test, category_names, idetails=False):
         total_recall = total_recall + macro_recall
         counter = counter + 1
 
+    print('\nOverall:')
     average_f1 = total_f1 / counter
     print('f1 score: ', average_f1)
 
@@ -286,8 +291,8 @@ def main():
     else:
         print('Please provide the filepath of the disaster messages database '\
               'as the first argument and the filepath of the pickle file to '\
-              'save the model to as the second argument. \n\nExample: python '\
-              'train_classifier.py sqlite:////Users/d5mit/PycharmProjects/udacity_ETL_project/Project/workspace/data/DisasterResponse.db classifier.pkl')
+              'save the model to as the second argument. \n\nExample:  '\
+              'python3 train_classifier.py ../data/DisasterResponse.db classifier.pkl')
 
 
 
