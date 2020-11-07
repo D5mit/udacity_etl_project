@@ -64,7 +64,7 @@ README.md
         python process_data.py disaster_messages.csv disaster_categories.csv DisasterResponse.db
         note: pytest was used in order to automate the testing for the process data script.
     - To run ML pipeline that trains classifier and saves
-        `python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl`
+        `python models/train_classifier.py ../data/DisasterResponse.db models/classifier.pkl`
     - The model that was used in order to train the pipeline on:
         - CountVectorizer(tokenizer=tokenize))
         - TfidfTransformer())
